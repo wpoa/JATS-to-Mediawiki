@@ -888,7 +888,7 @@
     which is, for the most part, a proxy of Tempate:Citation/core.
   -->
   <xsl:template match="citation | element-citation | mixed-citation | nlm-citation">
-    <xsl:text>{{citation-wpoa&#xA;</xsl:text>
+    <xsl:text>{{citation-wpoat&#xA;</xsl:text>
 
     <!-- fixme: attempt to differentiate editors from authors?  JATS/NLM tagset is not reliable for this -->
     <xsl:for-each select="string-name | person-group/string-name">
