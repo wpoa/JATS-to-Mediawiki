@@ -9,7 +9,7 @@
                 extension-element-prefixes="ex str" version="1.0">
 
   <xsl:import href="serialize.xsl"/>
-  
+
 
   <!-- 
     Output: targeting schema:http://www.mediawiki.org/xml/export-0.8.xsd
@@ -148,45 +148,45 @@
     <xsl:if test="count(article-meta/contrib-group/contrib[starts-with(@contrib-type, 'a')]) > 1">
       <xsl:text> |override_author= </xsl:text>
     </xsl:if>
-    
+
     <xsl:apply-templates 
       select="article-meta/contrib-group/contrib[starts-with(@contrib-type, 'a')]"
       mode="headerTemplateContrib">
       <xsl:with-param name="stem">a</xsl:with-param>
     </xsl:apply-templates>
-    
+
     <xsl:text>&#xA;    | editor = </xsl:text>
-    
+
     <xsl:apply-templates
       select="article-meta/contrib-group/contrib[starts-with(@contrib-type, 'e')]"
       mode="headerTemplateContrib">
       <xsl:with-param name="stem">e</xsl:with-param>
     </xsl:apply-templates>
-    
+
     <xsl:text>&#xA;    | translator = </xsl:text>
-    
+
     <xsl:apply-templates
       select="article-meta/contrib-group/contrib[starts-with(@contrib-type, 'tran')]"
       mode="headerTemplateContrib">
       <xsl:with-param name="stem">a</xsl:with-param>
     </xsl:apply-templates>
-    
+
     <xsl:text>&#xA;    | section    = </xsl:text>
-    
+
     <xsl:call-template name="journalCitation"/>
-    
+
     <xsl:text>&#xA;    | contributor= </xsl:text>
-    
+
     <xsl:apply-templates
       select="article-meta/contrib-group/contrib[not(starts-with(@contrib-type, 'a')) and not(starts-with(@contrib-type, 'e')) and not(starts-with(@contrib-type, 'tran'))]"
       mode="headerTemplateContrib">
       <xsl:with-param name="stem">a</xsl:with-param>
     </xsl:apply-templates>
-    
+
     <xsl:text>&#xA;    | previous   = </xsl:text>
     <xsl:text>&#xA;    | next       = </xsl:text>
     <xsl:text>&#xA;    | year       = </xsl:text>
-    
+
     <!-- 
       There could be several pub-dates based on @pub-type, but since that attribute does not
       have a controlled vocabulary, trying to perform logic on it is perilous 
@@ -387,7 +387,7 @@
     <xsl:apply-templates/>
     <xsl:text>&amp;lt;/span&amp;gt; </xsl:text>
   </xsl:template>
-  
+
   <xsl:template match="underline-start">
     <!-- 
       double-escape the entity refs so the resulting XML contains '&lt;' instead 
@@ -395,7 +395,7 @@
     -->
     &amp;lt;span style="text-decoration: underline;"&amp;gt; 
   </xsl:template>
-  
+
   <xsl:template match="underline-end">
     <xsl:text> &amp;lt;/span&amp;gt; </xsl:text>
   </xsl:template>
@@ -434,7 +434,7 @@
     <xsl:apply-templates/>
     <xsl:text>&lt;/sub&gt;</xsl:text>
   </xsl:template>
-  
+
   <xsl:template match="sup">
     <xsl:text>&lt;sup&gt;</xsl:text>
     <xsl:apply-templates/>
@@ -448,7 +448,7 @@
     <xsl:apply-templates select="./*"/>
     <xsl:text>&lt;/math&gt;</xsl:text>
   </xsl:template>
-  
+
   <xsl:template match="mml:*">
     <xsl:text> &lt;</xsl:text>
     <xsl:value-of select="local-name()"/>
@@ -580,21 +580,21 @@
     <xsl:apply-templates select="def-item|x" mode="HeadlessDefList"/>
     <xsl:apply-templates select="def-list"/>
   </xsl:template>
-  
+
   <xsl:template match="def-item" mode="HeadlessDefList">
     <xsl:apply-templates select="term|def|x" mode="HeadlessDefList"/>
   </xsl:template>
-  
+
   <xsl:template match="term" mode="HeadlessDefList">
     <xsl:text>;</xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
-  
+
   <xsl:template match="def" mode="HeadlessDefList">
     <xsl:text>: </xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
-  
+
   <xsl:template match="x" mode="HeadlessDefList">
     <xsl:apply-templates/>
   </xsl:template>
@@ -715,7 +715,7 @@
   </xsl:template>
 
   <xsl:template match="@content-type" mode="table-copy"/>
-  
+
   <!-- 
     End tables excerpt 
   -->
@@ -879,7 +879,7 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    
+
     <!-- QUESTION: better to let the error display, or suppress and fail quietly? -->
     <!-- Test that there's a link to this footnote; if not, Wiki will display an error, so don't bother. -->
     <xsl:if test="//xref[@rid=$refID]">
@@ -940,13 +940,13 @@
       <xsl:value-of select="month|date/month"/>
       <xsl:text>&#xA;</xsl:text>
     </xsl:if>
-    
+
     <xsl:if test="string-date">
       <xsl:text>| date = </xsl:text>
       <xsl:value-of select="string-date"/>
       <xsl:text>&#xA;</xsl:text>
     </xsl:if>
-    
+
     <!-- OTHER DATES -->
     <xsl:for-each
       select="date-in-citation[contains(@content-type, 'access|stamp')]|access-date|time-stamp">
@@ -1198,7 +1198,7 @@
 <!--  
     Commenting this out for now, because the OAMI does a better job of capturing license information.
     See https://github.com/wpoa/recitation-bot/issues/18.
-    
+
     <xsl:template match="license">
     <!-\- We need controlled vocabulary to match a license description in the article markup
             with the appropriate license template in WikiSource.  For this purpose, we'll examine the 
@@ -1220,7 +1220,7 @@
         </xsl:when>
       </xsl:choose>
     </xsl:variable>
-    
+
     <xsl:if test="$licenseURI">
       <xsl:text>&#xA;{{</xsl:text>
       <!-\- attempt to match the URI to an appropriate template -\->
@@ -1251,9 +1251,9 @@
     </xsl:if>
   </xsl:template>
 -->
-  
-  
-  
+
+
+
   <!-- Fix #12 - special cases with brackets around xrefs.  They must be removed. -->
   <xsl:template priority="2"
     match='text()[substring(., 1, 1) = "]" and 
