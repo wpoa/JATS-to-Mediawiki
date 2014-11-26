@@ -402,9 +402,9 @@
 	<xsl:choose>
 		<xsl:when test="count(processing-instruction()) &gt; 0
 						and string-length(@xlink:href) = 0">
-			<div>
+			&lt;div&gt;
 			<xsl:call-template name="ext-link-v2"/>
-			</div>
+			&lt;/div&gt;
 		</xsl:when>
 		<xsl:otherwise>
 			<xsl:call-template name="ext-link-v1"/>
@@ -906,7 +906,7 @@
     	<xsl:choose>
     		<xsl:when test="string-length($content) &gt; 0"><xsl:apply-templates select="$content"/></xsl:when> <!-- use enclosed text -->
     		<xsl:when test="@ext-link-type='pmc' or @ext-link-type='article'"></xsl:when> <!-- If no enclosed text in a pmc link, ignore it -->
-    		<xsl:when test="@ext-link-type='webcite'"><i>webcite</i></xsl:when> <!-- If no enclosed text in a pmc link, ignore it -->
+    		<xsl:when test="@ext-link-type='webcite'">&lt;i&gt;webcite&lt;/i&gt;</xsl:when> <!-- If no enclosed text in a pmc link, ignore it -->
     		<xsl:otherwise><xsl:value-of select="$term_id"/></xsl:otherwise> <!-- otherwise use the 'access' attribute -->
     	</xsl:choose>
     </xsl:variable>
@@ -927,14 +927,14 @@
 		<xsl:when test="ancestor::ref-list
 						and string-length($_display-text) &gt; 0
 						and (@ext-link-type = 'doi')">
-			<span>
+			&lt;span&gt;
 				<xsl:copy-of select="$_display-text"/>
-			</span>
+			&lt;/span&gt;
 		</xsl:when>
 	<xsl:when test="starts-with ($_href, '~~~EXT-LINK-TYPE-UNSUPPORTED~~~')">
-		<span>
+		&lt;span&gt;
 			<xsl:copy-of select="$_display-text"/>
-		</span>
+		&lt;/span&gt;
 	</xsl:when>
 		<xsl:when test="
 			not(starts-with($_href, '~~~UNKNOWN-EXT-LINK-TYPE~~~'))
@@ -945,7 +945,7 @@
 				<xsl:apply-templates select="@pmc:tagrid" mode="gen-class-attr-value"/>
 			</xsl:variable>
 
-			<a href="{$_href}">
+			&lt;a href="{$_href}"&gt;
 				<xsl:if test="string-length($pmc-tagrid-class) &gt; 0">
 					<xsl:attribute name="class">
 						<xsl:value-of select="$pmc-tagrid-class"/>
@@ -965,19 +965,19 @@
 				</xsl:choose>
 				<xsl:apply-templates select="@pmc:tagrid" mode="gen-id-attr"/>
 				<xsl:copy-of select="$_display-text"/>
-			</a>
+			&lt;/a&gt;
 		</xsl:when>
 		<xsl:when test="count(pmc:tag) &gt; 0">
 			<xsl:copy-of select="$_display-text"/>
 		</xsl:when>
 		<xsl:otherwise>
-			<span>
+			&lt;span&gt;
 				<xsl:copy-of select="$_display-text"/>
 	
 				<xsl:call-template name="utils-show-warning">
 					<xsl:with-param name="msg">
 						<!-- raw ext-link -->
-						<span>
+						&lt;span&gt;
 							<xsl:choose>
 								<xsl:when test="string-length($term_id) = 0">
 									<xsl:text>Essential information is missing [check $term_id value]</xsl:text>
@@ -988,18 +988,18 @@
 								</xsl:otherwise>
 							</xsl:choose>
 	
-							<br/>
+							&lt;br/&gt;
 							<xsl:for-each select="@*">
-								[@<xsl:value-of select="name()"/> = <xsl:value-of select="."/>]<br/>
+								[@<xsl:value-of select="name()"/> = <xsl:value-of select="."/>]&lt;br/&gt;
 							</xsl:for-each>
 							<xsl:for-each select="processing-instruction()">
-								[PI: <xsl:value-of select="name()"/> = <xsl:value-of select="."/>]<br/>
+								[PI: <xsl:value-of select="name()"/> = <xsl:value-of select="."/>]&lt;br/&gt;
 							</xsl:for-each>
-							<strong><a href="#" title="not implemented yet"><strong>EXT-LINK:</strong></a> <xsl:apply-templates select="$content"/></strong>
-						</span>
+							&lt;strong&gt;&lt;a href="#" title="not implemented yet"&gt;&lt;strong&gt;EXT-LINK:&lt;/strong&gt;&lt;/a&gt; <xsl:apply-templates select="$content"/>&lt;/strong&gt;
+						&lt;/span&gt;
 					</xsl:with-param>
 				</xsl:call-template>
-			</span>
+			&lt;/span&gt;
 		</xsl:otherwise>
 	</xsl:choose>
 </xsl:template>
@@ -1242,9 +1242,9 @@
 	
 	<xsl:choose>
 		<xsl:when test="contains(@xlink:href, '://') or not($_schema = '')">
-			<a href="{concat($_schema, @xlink:href)}">
+			&lt;a href="{concat($_schema, @xlink:href)}"&gt;
 				<xsl:apply-templates/>
-			</a>
+			&lt;/a&gt;
 		</xsl:when>
 		<xsl:otherwise>
 			<xsl:apply-templates/>
@@ -1503,7 +1503,7 @@
 		</xsl:call-template>
 	</xsl:variable>
 
-	<a>
+	&lt;a&gt;
 		<xsl:if test="string-length($id) &gt; 0">
 			<xsl:attribute name="id"><xsl:value-of select="$id"/></xsl:attribute>
 		</xsl:if>
@@ -1525,7 +1525,7 @@
 		<xsl:if test="$content">
 			<xsl:copy-of select="$content"/>
 		</xsl:if>
-	</a>
+	&lt;/a&gt;
 </xsl:template>
 
 <!-- Capitalize a string -->
@@ -1792,9 +1792,9 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <i18n:format-message id="{$strMessageId}" xml:lang="{$strContentLanguageId}">
+    &lt;i18n:format-message id="{$strMessageId}" xml:lang="{$strContentLanguageId}"&gt;
       <xsl:copy-of select="$setArguments"/>
-    </i18n:format-message>
+    &lt;/i18n:format-message&gt;
   </xsl:template>
 
 <!-- ######################################################        -->
@@ -1816,12 +1816,12 @@
 	<xsl:param name="keyword" select="''"/>
 
 	<xsl:if test="string($debug-mode) = 'yes' or string($pi-internal-qa) = 'yes'">
-		<span class="{$class}">
+		&lt;span class="{$class}"&gt;
 			<xsl:text/>&lt;<xsl:value-of select="$keyword"/>&#160;[context=<xsl:text/>
 			<xsl:call-template name="utils-node-path"/>
 			<xsl:text>]:&#160;</xsl:text>
 			<xsl:copy-of select="$msg"/>&gt;
-		</span>
+		&lt;/span&gt;
 	</xsl:if>
 </xsl:template>
 
@@ -1883,7 +1883,7 @@
 		</xsl:variable>
 
 		<xsl:text> </xsl:text>
-		<span class="nowrap ref pubmed">
+		&lt;span class="nowrap ref pubmed"&gt;
 			<xsl:variable name="pmid-label" select="'PubMed'"/>
 			<xsl:choose>
 				<xsl:when test="$pi-report = 'printable'">
@@ -1891,16 +1891,16 @@
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:text>[</xsl:text>
-						<a href="{$_pubmed-url}"  target="pmc_ext">
+						&lt;a href="{$_pubmed-url}"  target="pmc_ext"&gt;
 							<xsl:call-template name="redirect-ref-attr">
 								<xsl:with-param name="ref" select="$_pubmed-ref"/>
 							</xsl:call-template>
 							<xsl:value-of select="$pmid-label"/>
-						</a>
+						&lt;/a&gt;
 						<xsl:text>]</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
-		</span>
+		&lt;/span&gt;
 	</xsl:if>
 </xsl:template>
 <!-- ######################################################        -->
@@ -1946,25 +1946,25 @@
 	    <xsl:text> </xsl:text>
 	    <xsl:choose>
 			<xsl:when test="string-length($label) &gt; 0">
-				<a href="{$_crossref-url}" target="pmc_ext">
+				&lt;a href="{$_crossref-url}" target="pmc_ext"&gt;
 					<xsl:call-template name="redirect-ref-attr">
 						<xsl:with-param name="ref" select="$_crossref-ref"/>
 					</xsl:call-template>
 					<xsl:copy-of select="$label"/>
-				</a>
+				&lt;/a&gt;
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:if test="not ($pi-report = 'printable')">
-					<span class="nowrap ref crossref">
+					&lt;span class="nowrap ref crossref"&gt;
 						<xsl:text>[</xsl:text>
-						<a href="{$_crossref-url}" target="pmc_ext">
+						&lt;a href="{$_crossref-url}" target="pmc_ext"&gt;
 							<xsl:call-template name="redirect-ref-attr">
 								<xsl:with-param name="ref" select="$_crossref-ref"/>
 							</xsl:call-template>
 							<xsl:text>Cross Ref</xsl:text>
-						</a>
+						&lt;/a&gt;
 						<xsl:text>]</xsl:text>
-					</span>
+					&lt;/span&gt;
 				</xsl:if>
 			</xsl:otherwise>
 	    </xsl:choose>
