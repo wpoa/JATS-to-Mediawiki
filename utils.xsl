@@ -954,15 +954,6 @@
 				<xsl:call-template name="redirect-ref-attr">
 					<xsl:with-param name="ref" select="$_ref"/>
 				</xsl:call-template>
-				<xsl:choose>
-					<xsl:when test="@ext-link-type != 'pmc' and @ext-link-type != 'article'">
-						<!-- We only want to redirect to another window if type is NOT 'pmc' -->
-						<xsl:attribute name="target"><xsl:text>pmc_ext</xsl:text></xsl:attribute>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:attribute name="target"><xsl:text>mainwindow</xsl:text></xsl:attribute>
-					</xsl:otherwise>
-				</xsl:choose>
 				<xsl:apply-templates select="@pmc:tagrid" mode="gen-id-attr"/>
 				<xsl:copy-of select="$_display-text"/>
 			&lt;/a&gt;
