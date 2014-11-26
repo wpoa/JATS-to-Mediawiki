@@ -69,7 +69,7 @@
 
 <xsl:variable name="punc-to-be-translated-chars" select="',./?;:[]{}()-=+!*'"/>
 <xsl:variable name="punc-to-be-translated-to" select="'..................'"/>
-<xsl:variable name="refids" select="pf:ptpmc-document('mem://refids')"/>
+<!--<xsl:variable name="refids" select="pf:ptpmc-document('mem://refids')"/>-->
 <xsl:variable name="redirect-to-s1-external" select="'External'"/>
 <xsl:variable name="redirect-to-s2-article" select="'Article'"/>
 <xsl:variable name="redirect-to-s2-publink" select="'Publink'"/>
@@ -403,50 +403,6 @@
 	</xsl:if>
 </xsl:template>
 
-
-<!-- ######################################################        -->
-<!-- Add a PMC article anchor if we have a processing instruction for a citation. -->
-<xsl:template name="back-ref-pmc-full-text-link">
-	<xsl:param name="id" />
-	<xsl:if test="not(pub-id[@pub-id-type = 'pmid'] or self::pub-id[@pub-id-type='pmcaccid'])">
-		<xsl:if	test="(not(string($id) = '') and ancestor::ref) or (ancestor::body)">
-			<xsl:variable name="_pmcaccid">
-				<xsl:value-of select="pf:id-ext-nodeset($refids, $id)/@pmcaccid"/>
-			</xsl:variable>
-
-			<xsl:if test="string-length($_pmcaccid) &gt; 0"><!-- show [* Free Full Text in PMC] -->
-				<xsl:text> </xsl:text>
-				<span class="nowrap ref pmc">
-					<xsl:text>[</xsl:text>
-					<xsl:choose>
-						<xsl:when test="not($pi-report = 'printable')">
-							<xsl:call-template name="links-article">
-								<xsl:with-param name="article-id" select="$_pmcaccid" />
-								<xsl:with-param name="article-id-type" select="'accid'" />
-								<xsl:with-param name="pmc-accession-id" select="$_pmcaccid" />
-								<xsl:with-param name="content">
-									<xsl:call-template name="i18n-format-message">
-										<xsl:with-param name="strMessageId"
-											select="'common-modules.article.back-ref-section_free.full.text.in.pmc'" />
-									</xsl:call-template>
-								</xsl:with-param>
-								<xsl:with-param name="class" select="'int-reflink'" />
-							</xsl:call-template>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:text>PMCID: </xsl:text>
-							<xsl:value-of select="$_pmcaccid"/>
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:text>]</xsl:text>
-				</span>
-			</xsl:if>
-			<xsl:call-template name="back-ref-citation-pub-id">
-				<xsl:with-param name="id" select="$id" />
-			</xsl:call-template>
-		</xsl:if>
-	</xsl:if>
-</xsl:template>
 
 
 <!-- ######################################################        -->
@@ -1885,7 +1841,7 @@
 		<!-- 
 		<xsl:value-of select="key('pi-key', concat('refpmid_', $id))" />
 		-->
-		<xsl:value-of select="pf:id-ext-nodeset($refids, $id)/@pmid"/>
+<!--		<xsl:value-of select="pf:id-ext-nodeset($refids, $id)/@pmid"/>-->
 		</xsl:if>
 	</xsl:variable>
 	<xsl:variable name="_pmid">

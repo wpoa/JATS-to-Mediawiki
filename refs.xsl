@@ -152,9 +152,6 @@
 					<xsl:call-template name="nlm-citation"/>
 					</xsl:otherwise>
 				</xsl:choose>
-				<xsl:call-template name="back-ref-pmc-full-text-link">
-					<xsl:with-param name="id" select="ancestor-or-self::*[@id][self::ref or self::mixed-citation or self::citation or self::element-citation or self::nlm-citation][1]/@id"/>
-				</xsl:call-template>
 		</xsl:if>
 	</xsl:template>
 	 <!-- ==================================================================== -->
