@@ -395,14 +395,6 @@
 
 
 <!-- ######################################################        -->
-<xsl:template name="utils-class-name-attr">
-	<xsl:if test="string-length(name()) &gt; 0">
-		<xsl:attribute name="class">
-			<xsl:value-of select="name()"/>
-		</xsl:attribute>
-	</xsl:if>
-</xsl:template>
-
 
 
 <!-- ######################################################        -->

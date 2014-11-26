@@ -131,7 +131,6 @@
 		 name="refs-citation" mode="back-ref">
 		<!--xsl:call-template name="utils-class-name-attr"/-->
 		&lt;span&gt;
-			<xsl:call-template name="utils-class-name-attr"/>
 			<xsl:apply-templates select="@id" mode="id-attr"/>
 			<xsl:call-template name="refs-citation-inline"/>
 		&lt;/span&gt;
