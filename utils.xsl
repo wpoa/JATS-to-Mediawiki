@@ -69,7 +69,7 @@
 
 <xsl:variable name="punc-to-be-translated-chars" select="',./?;:[]{}()-=+!*'"/>
 <xsl:variable name="punc-to-be-translated-to" select="'..................'"/>
-<xsl:variable name="refids" select="pf:ptpmc-document('mem://refids')"/>
+<xsl:variable name="refids"/>
 <xsl:variable name="redirect-to-s1-external" select="'External'"/>
 <xsl:variable name="redirect-to-s2-article" select="'Article'"/>
 <xsl:variable name="redirect-to-s2-publink" select="'Publink'"/>
@@ -997,7 +997,10 @@
 				<xsl:apply-templates select="@pmc:tagrid" mode="gen-class-attr-value"/>
 			</xsl:variable>
 
-			<a href="{$_href}">
+			<xsl:text>[</xsl:text>
+			<xsl:value-of select="$_href" />
+			<xsl:text>&#160;</xsl:text>
+
 				<xsl:if test="string-length($pmc-tagrid-class) &gt; 0">
 					<xsl:attribute name="class">
 						<xsl:value-of select="$pmc-tagrid-class"/>
@@ -1017,7 +1020,7 @@
 				</xsl:choose>
 				<xsl:apply-templates select="@pmc:tagrid" mode="gen-id-attr"/>
 				<xsl:copy-of select="$_display-text"/>
-			</a>
+			<xsl:text>]</xsl:text>
 		</xsl:when>
 		<xsl:when test="count(pmc:tag) &gt; 0">
 			<xsl:copy-of select="$_display-text"/>
@@ -1294,9 +1297,11 @@
 	
 	<xsl:choose>
 		<xsl:when test="contains(@xlink:href, '://') or not($_schema = '')">
-			<a href="{concat($_schema, @xlink:href)}">
+			<xsl:text>[</xsl:text>
+			<xsl:value-of select="concat($_schema, @xlink:href)" />
+			<xsl:text>&#160;</xsl:text>
 				<xsl:apply-templates/>
-			</a>
+			<xsl:text>]</xsl:text>
 		</xsl:when>
 		<xsl:otherwise>
 			<xsl:apply-templates/>
@@ -1943,12 +1948,12 @@
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:text>[</xsl:text>
-						<a href="{$_pubmed-url}"  target="pmc_ext">
+						<xsl:value-of select="$_pubmed-url" />
+						<xsl:text>&#160;</xsl:text>
 							<xsl:call-template name="redirect-ref-attr">
 								<xsl:with-param name="ref" select="$_pubmed-ref"/>
 							</xsl:call-template>
 							<xsl:value-of select="$pmid-label"/>
-						</a>
 						<xsl:text>]</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
@@ -1998,23 +2003,25 @@
 	    <xsl:text> </xsl:text>
 	    <xsl:choose>
 			<xsl:when test="string-length($label) &gt; 0">
-				<a href="{$_crossref-url}" target="pmc_ext">
+				<xsl:text>[</xsl:text>
+				<xsl:value-of select="$_crossref-url" />
+				<xsl:text>&#160;</xsl:text>
 					<xsl:call-template name="redirect-ref-attr">
 						<xsl:with-param name="ref" select="$_crossref-ref"/>
 					</xsl:call-template>
 					<xsl:copy-of select="$label"/>
-				</a>
+				<xsl:text>]</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:if test="not ($pi-report = 'printable')">
 					<span class="nowrap ref crossref">
 						<xsl:text>[</xsl:text>
-						<a href="{$_crossref-url}" target="pmc_ext">
+						<xsl:value-of select="$_crossref-url" />
+						<xsl:text>&#160;</xsl:text>
 							<xsl:call-template name="redirect-ref-attr">
 								<xsl:with-param name="ref" select="$_crossref-ref"/>
 							</xsl:call-template>
 							<xsl:text>Cross Ref</xsl:text>
-						</a>
 						<xsl:text>]</xsl:text>
 					</span>
 				</xsl:if>
