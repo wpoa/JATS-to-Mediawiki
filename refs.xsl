@@ -88,20 +88,6 @@
 	</xsl:template>
         <!-- ######################################################        -->
 	<xsl:template match="label" mode="back-ref"> <!-- this should change to CSS -->
-			&lt;strong&gt;
-			<xsl:if test="preceding-sibling::citation or preceding-sibling::nlm-citation or parent::*[preceding-sibling::citation or preceding-sibling::nlm-citation]">
-				<xsl:text> </xsl:text>
-				</xsl:if>
-				 <xsl:apply-templates mode="back-ref"/>
-			<xsl:choose>
-				<xsl:when test="contains(.,')')">
-					<xsl:text> </xsl:text>
-					</xsl:when>
-				<xsl:otherwise>
-					&pd-sp;
-					</xsl:otherwise>
-					</xsl:choose>
-			&lt;/strong&gt;
 		</xsl:template>
 
 	 <!-- ######################################################        -->
@@ -131,7 +117,6 @@
 		 name="refs-citation" mode="back-ref">
 		<!--xsl:call-template name="utils-class-name-attr"/-->
 
-			<xsl:apply-templates select="@id" mode="id-attr"/>
 			<xsl:call-template name="refs-citation-inline"/>
 
 		<xsl:if test="position() != last() and parent::ref">&lt;br/&gt;</xsl:if>
