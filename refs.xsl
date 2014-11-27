@@ -48,7 +48,7 @@
 </xsl:text>'>
 
 <!ENTITY l20    "====================">
-<!ENTITY red-pipe  '<b style="color:red;">|</b>'>
+<!ENTITY red-pipe  '&lt;b style="color:red;"&gt;|&lt;/b&gt;'>
 ]>
 
 <xsl:stylesheet version="1.0"
@@ -70,25 +70,25 @@
 	<!-- ######################################################        -->
 	<xsl:template match="ref-list/ref">
 		<xsl:param name="li-class"/>
-		<li>
+		&lt;li&gt;
 			<xsl:if test="string-length($li-class) &gt; 0">
 				<xsl:attribute name="class"><xsl:value-of select="$li-class"/></xsl:attribute>
 			</xsl:if>
 			<xsl:call-template name="utils-generate-id-attr"/>
 			<xsl:apply-templates select="." mode="back-ref"/>
-		</li>
+		&lt;/li&gt;
 	</xsl:template>
 
 	 <!-- ######################################################        -->
 	<xsl:template match="ref">
-		<div class="ref half_rhythm">
+		&lt;div class="ref half_rhythm"&gt;
 			<xsl:call-template name="utils-generate-id-attr"/>
 			<xsl:apply-templates mode="back-ref"/>
-		</div>
+		&lt;/div&gt;
 	</xsl:template>
         <!-- ######################################################        -->
 	<xsl:template match="label" mode="back-ref"> <!-- this should change to CSS -->
-			<strong>
+			&lt;strong&gt;
 			<xsl:if test="preceding-sibling::citation or preceding-sibling::nlm-citation or parent::*[preceding-sibling::citation or preceding-sibling::nlm-citation]">
 				<xsl:text> </xsl:text>
 				</xsl:if>
@@ -101,7 +101,7 @@
 					&pd-sp;
 					</xsl:otherwise>
 					</xsl:choose>
-			</strong>
+			&lt;/strong&gt;
 		</xsl:template>
 
 	 <!-- ######################################################        -->
@@ -119,7 +119,7 @@
 			<xsl:otherwise/>
 		</xsl:choose>
 	 </xsl:template>
-		
+
 	 <!-- ==================================================================== -->
 	 <!-- TEMPLATE: citation | nlm-citation; also name="refs-citation"
 				NOTES:    If a citation is completely tagged, we will process it
@@ -130,12 +130,11 @@
 	 <xsl:template match="citation | element-citation | mixed-citation | nlm-citation"
 		 name="refs-citation" mode="back-ref">
 		<!--xsl:call-template name="utils-class-name-attr"/-->
-		<span>
-			<xsl:call-template name="utils-class-name-attr"/>
+
 			<xsl:apply-templates select="@id" mode="id-attr"/>
 			<xsl:call-template name="refs-citation-inline"/>
-		</span>
-		<xsl:if test="position() != last() and parent::ref"><br/></xsl:if>
+
+		<xsl:if test="position() != last() and parent::ref">&lt;br/&gt;</xsl:if>
 	 </xsl:template>
 	 <!-- ==================================================================== -->
 	 <xsl:template 	name="refs-citation-inline">
@@ -152,9 +151,6 @@
 					<xsl:call-template name="nlm-citation"/>
 					</xsl:otherwise>
 				</xsl:choose>
-				<xsl:call-template name="back-ref-pmc-full-text-link">
-					<xsl:with-param name="id" select="ancestor-or-self::*[@id][self::ref or self::mixed-citation or self::citation or self::element-citation or self::nlm-citation][1]/@id"/>
-				</xsl:call-template>
 		</xsl:if>
 	</xsl:template>
 	 <!-- ==================================================================== -->
@@ -359,7 +355,7 @@
 <!-- ANYTHING ELSE BUT RAW TEXT  (INCLUDES ARTICLES) -->
 				 <xsl:when test="not(text()[not(normalize-space(.) = '')])">
 						<xsl:apply-templates mode="back-ref-any-no-raw-text"/>
-			<span>
+
 				<xsl:apply-templates select="source"      mode="back-ref"/>
 							<xsl:apply-templates select="year"        mode="back-ref"/>
 							<xsl:apply-templates select="month"       mode="back-ref"/>
@@ -373,7 +369,7 @@
 							<xsl:apply-templates select="access-date" mode="back-ref"/>
 							<xsl:apply-templates select="pub-id[@pub-id-type='doi']" mode="back-ref"/>
 				<xsl:apply-templates select="ext-link"    mode="back-ref"/>
-							</span>
+
 						</xsl:when>
 
 <!-- RAW TEXT -->
@@ -396,11 +392,11 @@
 			and not(self::page-range)
 			and not(self::object-id)
 				]" mode="back-ref"/>
-				 <span>
+				 
 					<xsl:apply-templates select="*[self::source or self::year or self::month or self::day
 						or self::volume or self::issue or self::fpage or self::elocation-id or self::season
 						or self::pub-id[@pub-id-type='doi']]|text()" mode="back-ref"/>
-				 </span>
+				 
 				 <xsl:apply-templates select="text()" mode="back-ref"/>
 				 </xsl:otherwise>
 			</xsl:choose>
@@ -634,7 +630,7 @@
 		</xsl:template>
 
 	<xsl:template match="source" mode="back-ref">
-		<span class="ref-journal"><xsl:apply-templates mode="back-ref"/>&pd-sp;</span>
+		<xsl:apply-templates mode="back-ref"/>&pd-sp;
 		<xsl:choose>
 			<xsl:when test="../access-date or ../date-in-citation">
 				<xsl:if test="../edition">
@@ -721,7 +717,7 @@
 		</xsl:template>
 
 	 <xsl:template match="volume" mode="back-ref">
-			<span class="ref-vol"><xsl:apply-templates mode="back-ref"/></span>
+			<xsl:apply-templates mode="back-ref"/>
 		</xsl:template>
 
 	 <xsl:template match="supplement" mode="back-ref">
@@ -869,12 +865,12 @@
 	</xsl:template>
 
 	 <xsl:template match="annotation" mode="back-ref">
-			<br/>
-			<span>
+			&lt;br/&gt;
+
 				 <xsl:text> [</xsl:text>
 				 <xsl:apply-templates mode="back-ref"/>
 				 <xsl:text>]</xsl:text>
-			</span>
+
 		</xsl:template>
 
 	<xsl:template match="ext-link" mode="back-ref">
@@ -1307,11 +1303,11 @@
 		<xsl:variable name="_section-title">
 			<xsl:apply-templates mode="back-ref"/>
 		</xsl:variable>
-		<span class="ref-journal">
+
 			<xsl:call-template name="utils-put-missing-period">
 				<xsl:with-param name="input-str" select="$_section-title"/>
 			</xsl:call-template>
-		</span>
+
 		<xsl:text> </xsl:text>
 	 </xsl:template>
 
@@ -1472,28 +1468,28 @@
 		</xsl:template>
 
 	<xsl:template match="source" mode="dump">
-		<span class="ref-journal"><xsl:apply-templates mode="dump"/></span>
+		<xsl:apply-templates mode="dump"/>
 		&space;
 		</xsl:template>
 
 	<xsl:template match="italic" mode="dump">
-		<em><xsl:apply-templates mode="back-ref"/></em>
+		&lt;em&gt;<xsl:apply-templates mode="back-ref"/>&lt;/em&gt;
 		</xsl:template>
 
 	<xsl:template match="bold" mode="dump">
-		<strong><xsl:apply-templates mode="back-ref"/></strong>
+		&lt;strong&gt;<xsl:apply-templates mode="back-ref"/>&lt;/strong&gt;
 		</xsl:template>
 
 	<xsl:template match="sup" mode="dump">
-		<sup><xsl:apply-templates mode="back-ref"/></sup>
+		&lt;sup&gt;<xsl:apply-templates mode="back-ref"/>&lt;/sup&gt;
 		</xsl:template>
 
 	<xsl:template match="sub" mode="dump">
-		<sub><xsl:apply-templates mode="back-ref"/></sub>
+		&lt;sub&gt;<xsl:apply-templates mode="back-ref"/>&lt;/sub&gt;
 		</xsl:template>
 
 	<xsl:template match="article-title" mode="dump">
-		<span class="ref-title"><xsl:apply-templates mode="dump"/>&space;</span>
+		<xsl:apply-templates mode="dump"/>&space;
 		</xsl:template>
 
 	<xsl:template match="year" mode="dump">
@@ -1546,11 +1542,11 @@
 	</xsl:template>
 
 	<xsl:template match="volume" mode="dump">
-		<span class="ref-vol"><xsl:apply-templates mode="back-ref"/></span>
+		<xsl:apply-templates mode="back-ref"/>
 		</xsl:template>
 
 	<xsl:template match="issue" mode="dump">
-		<span class="ref-iss"><xsl:apply-templates mode="back-ref"/></span>
+		<xsl:apply-templates mode="back-ref"/>
 		</xsl:template>
 
 	<xsl:template match="fpage" mode="dump">
@@ -1613,7 +1609,7 @@
 	<xsl:template match="uri" mode="dump">
 		<xsl:call-template name="uri"/>
 	</xsl:template>
-	
+
 	<xsl:template match="uri" mode="book">
 		<xsl:call-template name="uri"/>&pd-sp;
 		</xsl:template>
@@ -1643,24 +1639,24 @@
 
 
 	<xsl:template match="table-wrap" mode="back-ref">
-		<div class="sec">
+		&lt;div class="sec"&gt;
 			<xsl:apply-templates/>
-		</div>
+		&lt;/div&gt;
 	</xsl:template>
 
 	<!-- ######################################################        -->
 	<xsl:template match="note" mode="back-ref">
-		<span>
+
 			<xsl:apply-templates select="@id" mode="id-attr"/>
 			<xsl:apply-templates mode="back-ref"/>
-		</span>
-		<xsl:if test="position() != last()"><br/></xsl:if>
+
+		<xsl:if test="position() != last()">&lt;br/&gt;</xsl:if>
 	</xsl:template>
 
 	<!-- ######################################################        -->
 	<xsl:template match="note/p|note/label" mode="back-ref">
 			<xsl:apply-templates mode="back-ref"/>
-			<xsl:if test="position() != last()"><br/></xsl:if>
+			<xsl:if test="position() != last()">&lt;br/&gt;</xsl:if>
 	</xsl:template>
 
 	<!-- ######################################################        -->

@@ -404,50 +404,6 @@
 </xsl:template>
 
 
-<!-- ######################################################        -->
-<!-- Add a PMC article anchor if we have a processing instruction for a citation. -->
-<xsl:template name="back-ref-pmc-full-text-link">
-	<xsl:param name="id" />
-	<xsl:if test="not(pub-id[@pub-id-type = 'pmid'] or self::pub-id[@pub-id-type='pmcaccid'])">
-		<xsl:if	test="(not(string($id) = '') and ancestor::ref) or (ancestor::body)">
-			<xsl:variable name="_pmcaccid">
-				<xsl:value-of select="pf:id-ext-nodeset($refids, $id)/@pmcaccid"/>
-			</xsl:variable>
-
-			<xsl:if test="string-length($_pmcaccid) &gt; 0"><!-- show [* Free Full Text in PMC] -->
-				<xsl:text> </xsl:text>
-				&lt;span class="nowrap ref pmc"&gt;
-					<xsl:text>[</xsl:text>
-					<xsl:choose>
-						<xsl:when test="not($pi-report = 'printable')">
-							<xsl:call-template name="links-article">
-								<xsl:with-param name="article-id" select="$_pmcaccid" />
-								<xsl:with-param name="article-id-type" select="'accid'" />
-								<xsl:with-param name="pmc-accession-id" select="$_pmcaccid" />
-								<xsl:with-param name="content">
-									<xsl:call-template name="i18n-format-message">
-										<xsl:with-param name="strMessageId"
-											select="'common-modules.article.back-ref-section_free.full.text.in.pmc'" />
-									</xsl:call-template>
-								</xsl:with-param>
-								<xsl:with-param name="class" select="'int-reflink'" />
-							</xsl:call-template>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:text>PMCID: </xsl:text>
-							<xsl:value-of select="$_pmcaccid"/>
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:text>]</xsl:text>
-				&lt;/span&gt;
-			</xsl:if>
-			<xsl:call-template name="back-ref-citation-pub-id">
-				<xsl:with-param name="id" select="$id" />
-			</xsl:call-template>
-		</xsl:if>
-	</xsl:if>
-</xsl:template>
-
 
 <!-- ######################################################        -->
 <xsl:template name="ext-link" match="ext-link">
@@ -481,7 +437,7 @@
 
 			<xsl:when test="$ext-link-type='uri' or $ext-link-type='url' or $ext-link-type='ftp'">
 				<!-- Standard HTTP URL -->
-				
+
 			<xsl:call-template name="redirect-url">
 				<xsl:with-param name="reftype" select="'extlink'"/>
 				<xsl:with-param name="url">
@@ -979,14 +935,14 @@
 		<xsl:when test="ancestor::ref-list
 						and string-length($_display-text) &gt; 0
 						and (@ext-link-type = 'doi')">
-			&lt;span&gt;
+
 				<xsl:copy-of select="$_display-text"/>
-			&lt;/span&gt;
+
 		</xsl:when>
 	<xsl:when test="starts-with ($_href, '~~~EXT-LINK-TYPE-UNSUPPORTED~~~')">
-		&lt;span&gt;
+
 			<xsl:copy-of select="$_display-text"/>
-		&lt;/span&gt;
+
 	</xsl:when>
 		<xsl:when test="
 			not(starts-with($_href, '~~~UNKNOWN-EXT-LINK-TYPE~~~'))
@@ -1009,15 +965,6 @@
 				<xsl:call-template name="redirect-ref-attr">
 					<xsl:with-param name="ref" select="$_ref"/>
 				</xsl:call-template>
-				<xsl:choose>
-					<xsl:when test="@ext-link-type != 'pmc' and @ext-link-type != 'article'">
-						<!-- We only want to redirect to another window if type is NOT 'pmc' -->
-						<xsl:attribute name="target"><xsl:text>pmc_ext</xsl:text></xsl:attribute>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:attribute name="target"><xsl:text>mainwindow</xsl:text></xsl:attribute>
-					</xsl:otherwise>
-				</xsl:choose>
 				<xsl:apply-templates select="@pmc:tagrid" mode="gen-id-attr"/>
 				<xsl:copy-of select="$_display-text"/>
 			<xsl:text>]</xsl:text>
@@ -1026,23 +973,23 @@
 			<xsl:copy-of select="$_display-text"/>
 		</xsl:when>
 		<xsl:otherwise>
-			&lt;span&gt;
+
 				<xsl:copy-of select="$_display-text"/>
-	
+
 				<xsl:call-template name="utils-show-warning">
 					<xsl:with-param name="msg">
 						<!-- raw ext-link -->
-						&lt;span&gt;
+
 							<xsl:choose>
 								<xsl:when test="string-length($term_id) = 0">
 									<xsl:text>Essential information is missing [check $term_id value]</xsl:text>
-	
+
 								</xsl:when>
 								<xsl:otherwise>
 									<xsl:text>this type of ext-link is not implemented yet</xsl:text>
 								</xsl:otherwise>
 							</xsl:choose>
-	
+
 							&lt;br/&gt;
 							<xsl:for-each select="@*">
 								[@<xsl:value-of select="name()"/> = <xsl:value-of select="."/>]&lt;br/&gt;
@@ -1051,10 +998,10 @@
 								[PI: <xsl:value-of select="name()"/> = <xsl:value-of select="."/>]&lt;br/&gt;
 							</xsl:for-each>
 							&lt;strong&gt;&lt;a href="#" title="not implemented yet"&gt;&lt;strong&gt;EXT-LINK:&lt;/strong&gt;&lt;/a&gt; <xsl:apply-templates select="$content"/>&lt;/strong&gt;
-						&lt;/span&gt;
+
 					</xsl:with-param>
 				</xsl:call-template>
-			&lt;/span&gt;
+
 		</xsl:otherwise>
 	</xsl:choose>
 </xsl:template>
@@ -1079,13 +1026,13 @@
 			<xsl:with-param name="pmid" select="$_pmid"/>
 		</xsl:call-template-->
 	</xsl:if>
-	
+
 	<xsl:for-each select="ancestor-or-self::*[pub-id[@pub-id-type = 'doi']][1]">
 	<xsl:call-template name="back-ref-crossref-link">
 	<xsl:with-param name="doi" select="pub-id[@pub-id-type = 'doi']"/>
 	</xsl:call-template>
 	</xsl:for-each>
-	
+
 
 </xsl:template>
 
@@ -1294,7 +1241,7 @@
 			<xsl:otherwise/>
 		</xsl:choose>
 	</xsl:variable>
-	
+
 	<xsl:choose>
 		<xsl:when test="contains(@xlink:href, '://') or not($_schema = '')">
 			<xsl:text>[</xsl:text>
@@ -1342,8 +1289,8 @@
 			<xsl:call-template name="ext-link-v1"/>
 		</xsl:otherwise>
 	</xsl:choose>
-		
-	
+
+
 </xsl:template>
 
 
@@ -1362,7 +1309,7 @@
 	<xsl:param name="cited" select="number(0)"/>
 	<xsl:param name="holding" select="$pi-holding"/>
 	<xsl:param name="_holding" select="ancestor-or-self::*[@holding][1]/@holding"/>
-	
+
 	<xsl:call-template name="links-article-href-v1">
 		<xsl:with-param name="article-instance-id" select="$article-instance-id"/>
 		<xsl:with-param name="article-id" select="$article-id"/>
@@ -1873,12 +1820,12 @@
 	<xsl:param name="keyword" select="''"/>
 
 	<xsl:if test="string($debug-mode) = 'yes' or string($pi-internal-qa) = 'yes'">
-		&lt;span class="{$class}"&gt;
+
 			<xsl:text/>&lt;<xsl:value-of select="$keyword"/>&#160;[context=<xsl:text/>
 			<xsl:call-template name="utils-node-path"/>
 			<xsl:text>]:&#160;</xsl:text>
 			<xsl:copy-of select="$msg"/>&gt;
-		&lt;/span&gt;
+
 	</xsl:if>
 </xsl:template>
 
@@ -1890,7 +1837,6 @@
 		<!-- 
 		<xsl:value-of select="key('pi-key', concat('refpmid_', $id))" />
 		-->
-		<xsl:value-of select="pf:id-ext-nodeset($refids, $id)/@pmid"/>
 		</xsl:if>
 	</xsl:variable>
 	<xsl:variable name="_pmid">
@@ -1940,7 +1886,7 @@
 		</xsl:variable>
 
 		<xsl:text> </xsl:text>
-		&lt;span class="nowrap ref pubmed"&gt;
+
 			<xsl:variable name="pmid-label" select="'PubMed'"/>
 			<xsl:choose>
 				<xsl:when test="$pi-report = 'printable'">
@@ -1957,7 +1903,7 @@
 						<xsl:text>]</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
-		&lt;/span&gt;
+
 	</xsl:if>
 </xsl:template>
 <!-- ######################################################        -->
@@ -2014,7 +1960,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:if test="not ($pi-report = 'printable')">
-					&lt;span class="nowrap ref crossref"&gt;
+
 						<xsl:text>[</xsl:text>
 						<xsl:value-of select="$_crossref-url" />
 						<xsl:text>&#160;</xsl:text>
@@ -2023,7 +1969,7 @@
 							</xsl:call-template>
 							<xsl:text>Cross Ref</xsl:text>
 						<xsl:text>]</xsl:text>
-					&lt;/span&gt;
+
 				</xsl:if>
 			</xsl:otherwise>
 	    </xsl:choose>
