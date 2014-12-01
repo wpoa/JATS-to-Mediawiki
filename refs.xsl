@@ -88,6 +88,21 @@
 	</xsl:template>
         <!-- ######################################################        -->
 	<xsl:template match="label" mode="back-ref"> <!-- this should change to CSS -->
+<!-- Commented out to remove reference numbers beginning of each reference entry -->
+<!--
+			<xsl:if test="preceding-sibling::citation or preceding-sibling::nlm-citation or parent::*[preceding-sibling::citation or preceding-sibling::nlm-citation]">
+				<xsl:text> </xsl:text>
+				</xsl:if>
+				 <xsl:apply-templates mode="back-ref"/>
+			<xsl:choose>
+				<xsl:when test="contains(.,')')">
+					<xsl:text> </xsl:text>
+					</xsl:when>
+				<xsl:otherwise>
+					&pd-sp;
+					</xsl:otherwise>
+					</xsl:choose>
+-->
 		</xsl:template>
 
 	 <!-- ######################################################        -->
@@ -136,6 +151,7 @@
 					<xsl:call-template name="nlm-citation"/>
 					</xsl:otherwise>
 				</xsl:choose>
+
 		</xsl:if>
 	</xsl:template>
 	 <!-- ==================================================================== -->
@@ -377,11 +393,11 @@
 			and not(self::page-range)
 			and not(self::object-id)
 				]" mode="back-ref"/>
-				 
+
 					<xsl:apply-templates select="*[self::source or self::year or self::month or self::day
 						or self::volume or self::issue or self::fpage or self::elocation-id or self::season
 						or self::pub-id[@pub-id-type='doi']]|text()" mode="back-ref"/>
-				 
+
 				 <xsl:apply-templates select="text()" mode="back-ref"/>
 				 </xsl:otherwise>
 			</xsl:choose>
@@ -1406,7 +1422,14 @@
 	<xsl:template name="citation-dump">
 		<xsl:apply-templates select="label" mode="back-ref"/>
 		<xsl:apply-templates select="node()[not(self::label or self::pub-id)]" mode="dump"/>
-		<xsl:apply-templates select="pub-id" mode="dump"/>
+		<xsl:if test="pub-id">
+			<xsl:text> </xsl:text>
+			<xsl:if test="pub-id[@pub-id-type]">
+				<xsl:value-of select="pub-id/@pub-id-type" />
+				<xsl:text>:</xsl:text>
+			</xsl:if>	
+			<xsl:apply-templates select="pub-id" mode="dump"/>
+		</xsl:if>
 		</xsl:template>
 
 	<xsl:template match="person-group" mode="dump">
@@ -1555,7 +1578,7 @@
 							<xsl:choose>
 								<xsl:when test="$hermano='lpage'">
 									<xsl:text>&#x2013;</xsl:text><xsl:apply-templates select="following-sibling::lpage[1]" mode="back-ref"/>
-									<xsl:text>.</xsl:text>
+									<xsl:text>. </xsl:text>
 								</xsl:when>
 								<xsl:otherwise/>
 							</xsl:choose>
@@ -1567,7 +1590,7 @@
 					<xsl:choose>
 						<xsl:when test="$hermano='lpage'"><xsl:text>&#x2013;</xsl:text>
 							<xsl:apply-templates select="following-sibling::lpage[1]" mode="back-ref"/>
-							<xsl:text>.</xsl:text>
+							<xsl:text>. </xsl:text>
 							</xsl:when>
 						<xsl:when test="$hermano='fpage'">
 							<xsl:text>,</xsl:text>
@@ -1575,7 +1598,7 @@
 						<xsl:when test="name(following-sibling::node()[1])=''"/>
 						<xsl:when test="name(following-sibling::node()[1])='x'"/>
 						<xsl:otherwise>
-							<xsl:text>.</xsl:text>
+							<xsl:text>. </xsl:text>
 							</xsl:otherwise>
 				</xsl:choose>
 			</xsl:otherwise>
@@ -1584,6 +1607,7 @@
 
 	<xsl:template match="lpage" mode="dump">
 			<xsl:apply-templates mode="back-ref"/>
+			<xsl:text> </xsl:text>
 	</xsl:template>
 
 	<!-- ==================================================================== -->

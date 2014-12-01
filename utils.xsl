@@ -403,7 +403,18 @@
 	</xsl:if>
 </xsl:template>
 
-
+<!-- ######################################################        -->
+<!-- Add a PMC article anchor if we have a processing instruction for a citation. -->
+<xsl:template name="back-ref-pmc-full-text-link">
+	<xsl:param name="id" />
+	<xsl:if test="not(pub-id[@pub-id-type = 'pmid'] or self::pub-id[@pub-id-type='pmcaccid'])">
+		<xsl:if test="(not(string($id) = '') and ancestor::ref) or (ancestor::body)">
+			<xsl:call-template name="back-ref-citation-pub-id">
+				<xsl:with-param name="id" select="$id" />
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:if>
+</xsl:template>
 
 <!-- ######################################################        -->
 <xsl:template name="ext-link" match="ext-link">
@@ -1834,7 +1845,7 @@
 	<xsl:param name="id" select="@id" />
 	<xsl:variable name="_pmid-pi">
 		<xsl:if test="not(string($id) = '')">
-		<!-- 
+		<!--
 		<xsl:value-of select="key('pi-key', concat('refpmid_', $id))" />
 		-->
 		</xsl:if>
@@ -1922,7 +1933,7 @@
 			<xsl:with-param name="str" select="$doi"/>
 		</xsl:call-template>
 	    </xsl:variable>
-    
+
 	    <xsl:variable name="_crossref-url">
 		    <xsl:call-template name="wrap-url-in-redirect-if-necessary">
 		    <xsl:with-param name="url" select="$_doi-url"/>
@@ -1945,7 +1956,7 @@
 		    <xsl:with-param name="ref-info-only" select="'yes'"/>
 		    </xsl:call-template>
 	    </xsl:variable>
-    
+
 	    <xsl:text> </xsl:text>
 	    <xsl:choose>
 			<xsl:when test="string-length($label) &gt; 0">
