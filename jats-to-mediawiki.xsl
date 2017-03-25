@@ -340,9 +340,9 @@
     </xsl:template>
     
     <xsl:template match="sub">
-        <xsl:text>&lt;sub&gt;</xsl:text>
+        <sub>
         <xsl:apply-templates/>
-        <xsl:text>&lt;/sub&gt;</xsl:text>
+        </sub>
     </xsl:template>
     <xsl:template match="sup">
         <xsl:text>&lt;sup&gt;</xsl:text>
